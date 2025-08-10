@@ -76,25 +76,57 @@
   </style>
 </head>
 <body class="bg-gray-50">
-  <div id="app" class="max-w-md mx-auto min-h-screen bg-white shadow-lg">
+  <div id="app" class="max-w-full sm:max-w-md lg:max-w-lg mx-auto min-h-screen bg-white shadow-lg">
     <!-- Header -->
     <header class="bg-indigo-600 text-white p-4 flex items-center justify-between">
       <h1 class="text-2xl font-bold">Microlecturas</h1>
-      <button id="favorites-btn" class="bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full p-2 transition-all">
-        <i class="fas fa-bookmark"></i>
-      </button>
+      <div class="hidden sm:flex space-x-4">
+        <button id="home-btn" class="bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full p-2 transition-all">
+          <i class="fas fa-home"></i>
+        </button>
+        <button id="favorites-btn" class="bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full p-2 transition-all">
+          <i class="fas fa-bookmark"></i>
+        </button>
+        <button id="settings-btn" class="bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full p-2 transition-all">
+          <i class="fas fa-cog"></i>
+        </button>
+      </div>
     </header>
     
     <!-- Main Content -->
-    <main class="p-4">
+    <main class="p-4 sm:p-6 lg:p-8">
       <!-- Welcome Screen -->
-      <div id="welcome-screen" class="fade-in">
+      <div id="welcome-screen" class="fade-in transition-opacity duration-300">
         <div class="text-center mb-8">
           <h2 class="text-xl font-semibold text-gray-800 mb-2">¡Bienvenido a Microlecturas!</h2>
           <p class="text-gray-600">Aprende algo nuevo en menos de un minuto</p>
         </div>
         
-        <div class="grid grid-cols-2 gap-4 mb-6">
+        <!-- Mobile Category Carousel -->
+        <div class="sm:hidden flex overflow-x-auto space-x-4 pb-4 mb-6">
+          <button data-category="filosofia" class="category-btn flex-shrink-0 bg-gradient-to-br from-pink-500 to-red-500 text-white rounded-lg p-5 text-center shadow-md">
+            <i class="fas fa-brain text-3xl mb-2"></i>
+            <h3 class="font-semibold">Filosofía</h3>
+          </button>
+          
+          <button data-category="literatura" class="category-btn flex-shrink-0 bg-gradient-to-br from-purple-500 to-indigo-500 text-white rounded-lg p-5 text-center shadow-md">
+            <i class="fas fa-book text-3xl mb-2"></i>
+            <h3 class="font-semibold">Literatura</h3>
+          </button>
+          
+          <button data-category="ciencia" class="category-btn flex-shrink-0 bg-gradient-to-br from-teal-400 to-green-500 text-white rounded-lg p-5 text-center shadow-md">
+            <i class="fas fa-flask text-3xl mb-2"></i>
+            <h3 class="font-semibold">Ciencia</h3>
+          </button>
+          
+          <button data-category="historia" class="category-btn flex-shrink-0 bg-gradient-to-br from-yellow-400 to-orange-500 text-white rounded-lg p-5 text-center shadow-md">
+            <i class="fas fa-landmark text-3xl mb-2"></i>
+            <h3 class="font-semibold">Historia</h3>
+          </button>
+        </div>
+        
+        <!-- Desktop/Tablet Grid -->
+        <div class="hidden sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
           <button data-category="filosofia" class="category-btn bg-gradient-to-br from-pink-500 to-red-500 text-white rounded-lg p-5 text-center shadow-md">
             <i class="fas fa-brain text-3xl mb-2"></i>
             <h3 class="font-semibold">Filosofía</h3>
@@ -122,37 +154,47 @@
       </div>
       
       <!-- Loading Screen -->
-      <div id="loading-screen" class="hidden h-60 flex flex-col items-center justify-center">
+      <div id="loading-screen" class="hidden h-60 flex flex-col items-center justify-center transition-opacity duration-300">
         <span class="loader mb-4"></span>
         <p class="text-gray-600">Cargando tu microlectura...</p>
       </div>
       
       <!-- Error Screen -->
-      <div id="error-screen" class="hidden text-center p-8">
+      <div id="error-screen" class="hidden text-center p-8 transition-opacity duration-300">
         <i class="fas fa-exclamation-circle text-red-500 text-5xl mb-4"></i>
         <h3 class="text-xl font-semibold text-gray-800 mb-2">¡Ups! Algo salió mal</h3>
         <p class="text-gray-600 mb-4">No pudimos cargar la microlectura</p>
-        <button id="retry-btn" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
-          Intentar de nuevo
-        </button>
+        <div class="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-2">
+          <button id="retry-btn" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+            Intentar de nuevo
+          </button>
+          <button class="back-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition">
+            Volver al inicio
+          </button>
+        </div>
       </div>
       
       <!-- Reading Screen -->
-      <div id="reading-screen" class="hidden fade-in">
+      <div id="reading-screen" class="hidden fade-in transition-opacity duration-300 w-full">
         <div class="flex justify-between items-center mb-4">
-          <div class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm" id="category-label">Categoría</div>
+          <div class="flex items-center">
+            <button class="back-btn mr-2 text-indigo-600">
+              <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm" id="category-label">Categoría</div>
+          </div>
           <button id="favorite-toggle" class="text-gray-400 hover:text-yellow-500 transition-colors">
             <i class="far fa-star text-xl"></i>
           </button>
         </div>
         
-        <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-100 mb-6">
+        <div class="bg-white w-full rounded-lg p-4 sm:p-6 shadow-sm border border-gray-100 mb-6">
           <h3 id="reading-title" class="text-xl font-bold text-gray-900 mb-3">Título de la microlectura</h3>
           <p id="reading-content" class="content-text text-gray-700 leading-relaxed">El contenido de la microlectura aparecerá aquí. Este será un texto breve, de entre 50 y 150 palabras, diseñado para ser leído en menos de un minuto.</p>
         </div>
         
         <!-- Challenge Section -->
-        <div id="challenge-section" class="slide-in bg-indigo-50 rounded-lg p-5 border border-indigo-100">
+        <div id="challenge-section" class="slide-in bg-indigo-50 rounded-lg p-4 sm:p-5 border border-indigo-100 w-full">
           <h4 class="font-semibold text-indigo-800 mb-3">Reto rápido</h4>
           <div id="question" class="mb-4">¿Pregunta relacionada con la lectura?</div>
           
@@ -162,11 +204,11 @@
           
           <div id="result-feedback" class="hidden mb-4 p-3 rounded-md"></div>
           
-          <div class="flex justify-center">
-            <button id="submit-answer" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+          <div class="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-2">
+            <button id="submit-answer" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition w-full sm:w-auto">
               Verificar respuesta
             </button>
-            <button id="next-reading" class="hidden bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+            <button id="next-reading" class="hidden bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition w-full sm:w-auto">
               Siguiente lectura <i class="fas fa-arrow-right ml-2"></i>
             </button>
           </div>
@@ -174,7 +216,7 @@
       </div>
       
       <!-- Favorites Screen -->
-      <div id="favorites-screen" class="hidden fade-in">
+      <div id="favorites-screen" class="hidden fade-in transition-opacity duration-300">
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-xl font-semibold text-gray-800">Mis favoritos</h2>
           <button id="back-from-favorites" class="text-indigo-600">
@@ -190,7 +232,37 @@
           </div>
         </div>
       </div>
+      
+      <!-- Settings Screen -->
+      <div id="settings-screen" class="hidden fade-in transition-opacity duration-300">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-semibold text-gray-800">Ajustes</h2>
+          <button class="back-btn text-indigo-600">
+            <i class="fas fa-arrow-left"></i> Volver
+          </button>
+        </div>
+        <!-- Settings content here -->
+        <div class="bg-white rounded-lg p-4 sm:p-6 shadow-sm border border-gray-100">
+          <p class="text-gray-600 text-center">Configuración de la aplicación</p>
+        </div>
+      </div>
     </main>
+    
+    <!-- Bottom Navigation for Mobile -->
+    <nav class="sm:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around p-2">
+      <button id="home-nav-btn" class="flex flex-col items-center p-2 text-indigo-600">
+        <i class="fas fa-home text-xl"></i>
+        <span class="text-xs mt-1">Inicio</span>
+      </button>
+      <button id="favorites-nav-btn" class="flex flex-col items-center p-2 text-gray-500">
+        <i class="fas fa-bookmark text-xl"></i>
+        <span class="text-xs mt-1">Favoritos</span>
+      </button>
+      <button id="settings-nav-btn" class="flex flex-col items-center p-2 text-gray-500">
+        <i class="fas fa-cog text-xl"></i>
+        <span class="text-xs mt-1">Ajustes</span>
+      </button>
+    </nav>
   </div>
 
   <script id="app-script">
@@ -209,13 +281,15 @@
         loading: document.getElementById('loading-screen'),
         error: document.getElementById('error-screen'),
         reading: document.getElementById('reading-screen'),
-        favorites: document.getElementById('favorites-screen')
+        favorites: document.getElementById('favorites-screen'),
+        settings: document.getElementById('settings-screen')
       };
       
       const elements = {
         categoryButtons: document.querySelectorAll('.category-btn'),
         retryButton: document.getElementById('retry-btn'),
         favoritesButton: document.getElementById('favorites-btn'),
+        backButtons: document.querySelectorAll('.back-btn'),
         backFromFavoritesButton: document.getElementById('back-from-favorites'),
         favoriteToggle: document.getElementById('favorite-toggle'),
         submitAnswerButton: document.getElementById('submit-answer'),
@@ -226,7 +300,12 @@
         question: document.getElementById('question'),
         quizOptions: document.getElementById('quiz-options'),
         resultFeedback: document.getElementById('result-feedback'),
-        favoritesList: document.getElementById('favorites-list')
+        favoritesList: document.getElementById('favorites-list'),
+        homeNavBtn: document.getElementById('home-nav-btn'),
+        favoritesNavBtn: document.getElementById('favorites-nav-btn'),
+        settingsNavBtn: document.getElementById('settings-nav-btn'),
+        homeBtn: document.getElementById('home-btn'),
+        settingsBtn: document.getElementById('settings-btn')
       };
       
       // Show screen function
@@ -235,6 +314,16 @@
           screen.classList.add('hidden');
         });
         screens[screenId].classList.remove('hidden');
+        
+        // Update active nav button
+        document.querySelectorAll('nav button').forEach(btn => btn.classList.replace('text-indigo-600', 'text-gray-500'));
+        if (screenId === 'welcome') {
+          elements.homeNavBtn?.classList.replace('text-gray-500', 'text-indigo-600');
+        } else if (screenId === 'favorites') {
+          elements.favoritesNavBtn?.classList.replace('text-gray-500', 'text-indigo-600');
+        } else if (screenId === 'settings') {
+          elements.settingsNavBtn?.classList.replace('text-gray-500', 'text-indigo-600');
+        }
       }
       
       // Fetch a reading from a category
@@ -540,6 +629,34 @@
       
       elements.nextReadingButton.addEventListener('click', () => {
         fetchReading(appState.currentCategory);
+      });
+
+      // Add new event listeners for navigation
+      elements.backButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          showScreen('welcome');
+        });
+      });
+      
+      elements.homeNavBtn?.addEventListener('click', () => {
+        showScreen('welcome');
+      });
+      
+      elements.favoritesNavBtn?.addEventListener('click', () => {
+        updateFavoritesList();
+        showScreen('favorites');
+      });
+      
+      elements.settingsNavBtn?.addEventListener('click', () => {
+        showScreen('settings');
+      });
+      
+      elements.homeBtn?.addEventListener('click', () => {
+        showScreen('welcome');
+      });
+      
+      elements.settingsBtn?.addEventListener('click', () => {
+        showScreen('settings');
       });
     });
   </script>
