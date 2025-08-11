@@ -208,7 +208,7 @@
 }
 
 .answer-btn.selected {
-  background-color: #2563eb !important; /* Azul intenso */
+  background-color: #4245E3 !important; /* Azul intenso */
   color: white !important;
   border: 2px solid #1e40af; /* Borde azul oscuro */
   box-shadow: 0 0 8px rgba(37, 99, 235, 0.6);
@@ -831,10 +831,20 @@
       elements.settingsBtn?.addEventListener('click', () => {
         showScreen('settings');
       });
+
+      function selectAnswer(button) {
+  // Quitar selección previa
+  document.querySelectorAll('.answer-btn').forEach(btn => btn.classList.remove('selected'));
+  
+  // Marcar el nuevo
+  button.classList.add('selected');
+}
+
     });
   </script>
 </body>
 </html>
+
 
 
 
