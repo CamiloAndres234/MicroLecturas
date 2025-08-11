@@ -202,6 +202,19 @@
     input:checked + .slider:before {
       transform: translateX(22px);
     }
+
+    .answer-btn {
+  transition: all 0.2s ease-in-out;
+}
+
+.answer-btn.selected {
+  background-color: #2563eb !important; /* Azul intenso */
+  color: white !important;
+  border: 2px solid #1e40af; /* Borde azul oscuro */
+  box-shadow: 0 0 8px rgba(37, 99, 235, 0.6);
+  transform: scale(1.05); /* Ligero aumento */
+}
+
   </style>
 </head>
 <body class="bg-gray-50">
@@ -822,6 +835,7 @@
   </script>
 </body>
 </html>
+
 
 
 
